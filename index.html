@@ -7,20 +7,67 @@
     <meta name="author" content="Construction Héritage">
     <title>SOUMISSION BUDGÉTAIRE INTERACTIVE - Construction Héritage</title>
     <style>
-        /* Variables CSS */
+        /* Variables CSS - Alignées avec style.css */
         :root {
-            --primary-color: #4b5563;
-            --primary-light: #6b7280;
-            --primary-dark: #374151;
-            --primary-bg: #f9fafb;
-            --danger-color: #ef4444;
+            /* Couleurs principales */
+            --primary-color: #3B82F6;
+            --primary-color-light: #93C5FD;
+            --primary-color-lighter: #DBEAFE;
+            --primary-color-darker: #2563EB;
+            --primary-color-darkest: #1D4ED8;
+            --primary-light: #93C5FD;
+            --primary-dark: #2563EB;
+
+            /* Couleurs boutons */
+            --button-color: #1F2937;
+            --button-color-light: #374151;
+            --button-color-dark: #111827;
+
+            /* Backgrounds */
+            --background-color: #FAFBFF;
+            --secondary-background-color: #F8FAFF;
+            --card-background: #F5F8FF;
+            --content-background: #FFFFFF;
+            --primary-bg: #F5F8FF;
+
+            /* Texte */
+            --text-color: #1F2937;
+            --text-color-light: #6B7280;
+            --text-color-muted: #9CA3AF;
+
+            /* Bordures */
+            --border-color: #E5E7EB;
+            --border-color-light: #F3F4F6;
+            --border-color-blue: #DBEAFE;
+
+            /* Couleurs projet */
+            --project-success: #22C55E;
+            --project-success-light: #86EFAC;
+            --project-warning: #F59E0B;
+            --project-danger: #EF4444;
+            --project-danger-light: #F87171;
+            --project-info: #06B6D4;
+
+            /* Alias pour compatibilité */
+            --danger-color: #EF4444;
             --danger-hover: #dc2626;
-            --success-color: #6b7280;
-            --success-hover: #4b5563;
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            --success-color: #22C55E;
+            --success-hover: #16a34a;
+
+            /* Propriétés générales */
+            --border-radius-sm: 0.375rem;
+            --border-radius-md: 0.5rem;
+            --border-radius-lg: 0.75rem;
+            --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.05);
+            --shadow-blue: 0 4px 12px rgba(59, 130, 246, 0.15);
             --transition-base: all 0.3s ease;
+
+            /* Dégradés */
+            --primary-gradient: linear-gradient(135deg, #3B82F6 0%, #1F2937 100%);
+            --button-gradient: linear-gradient(90deg, #3B82F6 0%, #1F2937 100%);
+            --card-gradient: linear-gradient(135deg, #F5F8FF 0%, #FFFFFF 100%);
         }
 
         /* Reset et Base */
@@ -34,8 +81,8 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
             font-size: 10px;
             line-height: 1.3;
-            color: #333;
-            background: #f5f5f5;
+            color: var(--text-color);
+            background: var(--background-color);
             min-height: 100vh;
         }
 
@@ -53,13 +100,14 @@
         .control-bar {
             position: sticky;
             top: 0;
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+            background: var(--primary-gradient);
             color: white;
             padding: 20px 15px;
             margin: -0.4in -0.4in 20px -0.4in;
             z-index: 1000;
-            box-shadow: var(--shadow-md);
+            box-shadow: 0 8px 24px rgba(31, 41, 55, 0.35), 0 0 30px rgba(59, 130, 246, 0.2);
             text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .control-bar h3 {
@@ -85,7 +133,7 @@
             background: rgba(255, 255, 255, 0.2);
             color: white;
             border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 4px;
+            border-radius: var(--border-radius-md);
             cursor: pointer;
             font-size: 11px;
             transition: var(--transition-base);
@@ -95,40 +143,68 @@
             justify-content: center;
             gap: 5px;
             min-width: 140px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .control-btn::before {
+            content: "";
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+            transition: left 0.6s ease;
+            z-index: 1;
+        }
+
+        .control-btn:hover::before {
+            left: 100%;
         }
 
         .control-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            border-color: rgba(255, 255, 255, 0.5);
-            transform: translateY(-2px) scale(1.02);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.35);
+            border-color: rgba(255, 255, 255, 0.6);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 0 15px rgba(59, 130, 246, 0.2);
         }
 
         .control-btn:active {
-            transform: translateY(0) scale(1);
+            transform: translateY(-1px) scale(1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), inset 0 -1px 0 rgba(255, 255, 255, 0.1);
         }
 
         .control-btn.danger {
-            background: rgba(239, 68, 68, 0.8);
-            border-color: rgba(239, 68, 68, 0.5);
+            background: linear-gradient(145deg, rgba(255, 100, 100, 0.15) 0%, var(--project-danger) 50%, rgba(200, 30, 30, 1) 100%);
+            border-color: rgba(239, 68, 68, 0.6);
+            box-shadow: 0 4px 8px rgba(239, 68, 68, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
         }
 
         .control-btn.danger:hover {
-            background: rgba(220, 38, 38, 0.9);
+            background: linear-gradient(145deg, rgba(255, 120, 120, 0.2) 0%, #F87171 50%, var(--danger-hover) 100%);
+            box-shadow: 0 6px 12px rgba(239, 68, 68, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 0 15px rgba(239, 68, 68, 0.3);
         }
 
         .control-btn.success {
-            background: rgba(34, 197, 94, 0.9);
-            border-color: rgba(34, 197, 94, 0.5);
+            background: linear-gradient(145deg, rgba(100, 255, 150, 0.15) 0%, var(--project-success) 50%, rgba(20, 150, 70, 1) 100%);
+            border-color: rgba(34, 197, 94, 0.6);
+            box-shadow: 0 4px 8px rgba(34, 197, 94, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
         }
 
         .control-btn.success:hover {
-            background: rgba(22, 163, 74, 1);
+            background: linear-gradient(145deg, rgba(120, 255, 170, 0.2) 0%, #86EFAC 50%, var(--success-hover) 100%);
+            box-shadow: 0 6px 12px rgba(34, 197, 94, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 0 15px rgba(34, 197, 94, 0.3);
         }
 
         .control-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .control-btn:disabled::before {
+            display: none;
         }
 
         /* Paramètres */
@@ -194,17 +270,18 @@
         }
 
         .company-info input:hover:not(:focus) {
-            background: rgba(75, 85, 99, 0.03) !important;
+            background: rgba(59, 130, 246, 0.03) !important;
             cursor: pointer;
         }
 
         .company-info input:focus {
-            background: rgba(255, 255, 255, 0.8) !important;
-            border: 1px solid #e5e7eb !important;
-            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.95) !important;
+            border: 1px solid var(--primary-color) !important;
+            border-radius: var(--border-radius-sm);
             padding: 1px 3px;
             outline: none;
-            box-shadow: 0 0 0 2px rgba(75, 85, 99, 0.05);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(59, 130, 246, 0.1);
+            transform: translateY(-1px);
         }
 
         .company-info input.inline {
@@ -310,8 +387,8 @@
         .table-header th:nth-child(4) { width: 18%; text-align: right; }
         .table-header th:nth-child(5) { width: 6%; text-align: center; border-right: none; }
 
-        .table tbody tr:nth-child(even) { background: #f9fafb; }
-        .table tbody tr:hover { background: #f3f4f6; }
+        .table tbody tr:nth-child(even) { background: var(--secondary-background-color); }
+        .table tbody tr:hover { background: var(--card-background); }
 
         .table td {
             padding: 6px 8px;
@@ -360,16 +437,17 @@
         }
 
         .item-title-input:hover {
-            background: rgba(75, 85, 99, 0.03);
+            background: rgba(59, 130, 246, 0.03);
             cursor: pointer;
         }
 
         .item-title-input:focus {
             background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 2px;
+            border: 1px solid var(--primary-color);
+            border-radius: var(--border-radius-sm);
             outline: none;
-            box-shadow: 0 0 0 2px rgba(75, 85, 99, 0.05);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(59, 130, 246, 0.1);
+            transform: translateY(-1px);
         }
 
         .item-details-input {
@@ -390,24 +468,25 @@
         }
 
         .item-details-input:hover {
-            background: rgba(75, 85, 99, 0.03);
+            background: rgba(59, 130, 246, 0.03);
             cursor: pointer;
         }
 
         .item-details-input:focus {
             background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 2px;
+            border: 1px solid var(--primary-color);
+            border-radius: var(--border-radius-sm);
             outline: none;
-            box-shadow: 0 0 0 2px rgba(75, 85, 99, 0.05);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(59, 130, 246, 0.1);
             font-style: normal;
+            transform: translateY(-1px);
         }
         
-        .category-header-row td { 
-            background: #f9fafb; 
-            font-weight: bold; 
-            padding: 6px 8px !important; 
-            color: var(--primary-dark); 
+        .category-header-row td {
+            background: var(--secondary-background-color);
+            font-weight: bold;
+            padding: 6px 8px !important;
+            color: var(--primary-dark);
             font-size: 11px;
         }
         
@@ -425,16 +504,17 @@
         }
         
         .category-title-input:hover {
-            background: rgba(75, 85, 99, 0.03);
+            background: rgba(59, 130, 246, 0.03);
             cursor: pointer;
         }
-        
+
         .category-title-input:focus {
             background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 2px;
+            border: 1px solid var(--primary-color);
+            border-radius: var(--border-radius-sm);
             outline: none;
-            box-shadow: 0 0 0 2px rgba(75, 85, 99, 0.05);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(59, 130, 246, 0.1);
+            transform: translateY(-1px);
         }
         
         .subtotal-row td { 
@@ -465,8 +545,9 @@
         .amount-input:focus {
             outline: none;
             border-color: var(--primary-color);
-            background: var(--primary-bg);
-            box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.1);
+            background: var(--secondary-background-color);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(59, 130, 246, 0.1);
+            transform: translateY(-1px);
         }
 
         .amount-input.error {
@@ -488,8 +569,9 @@
         .quantity-input:focus {
             outline: none;
             border-color: var(--primary-color);
-            background: var(--primary-bg);
-            box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.1);
+            background: var(--secondary-background-color);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(59, 130, 246, 0.1);
+            transform: translateY(-1px);
         }
 
         .quantity-input.error {
@@ -511,7 +593,8 @@
             outline: none;
             border-color: var(--primary-color);
             background: white;
-            box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.1);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(59, 130, 246, 0.1);
+            transform: translateY(-1px);
         }
 
         .date-input {
@@ -535,7 +618,8 @@
             outline: none;
             border-color: var(--primary-color);
             background: white;
-            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(59, 130, 246, 0.1);
+            transform: translateY(-1px);
         }
 
         .info-input.inline {
@@ -559,17 +643,18 @@
         }
 
         .info-section input:hover:not(:focus) {
-            background: rgba(75, 85, 99, 0.03) !important;
+            background: rgba(59, 130, 246, 0.03) !important;
             cursor: pointer;
         }
 
         .info-section input:focus {
-            background: rgba(255, 255, 255, 0.9) !important;
-            border: 1px solid #e5e7eb !important;
-            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.95) !important;
+            border: 1px solid var(--primary-color) !important;
+            border-radius: var(--border-radius-sm);
             padding: 2px 4px;
             outline: none;
-            box-shadow: 0 0 0 2px rgba(75, 85, 99, 0.05);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(59, 130, 246, 0.1);
+            transform: translateY(-1px);
         }
 
         .amount-display {
@@ -612,8 +697,8 @@
         .summary-box {
             margin-top: 30px;
             padding: 20px;
-            background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);
-            border-radius: 6px;
+            background: linear-gradient(135deg, var(--card-background) 0%, var(--border-color-light) 100%);
+            border-radius: var(--border-radius-md);
             border-left: 4px solid var(--primary-color);
             box-shadow: var(--shadow-sm);
         }
@@ -658,10 +743,11 @@
         .exclusions, .conditions {
             margin-top: 20px;
             padding: 15px;
-            background: linear-gradient(135deg, #fafafa 0%, #f9fafb 100%);
-            border: 1px solid #e5e7eb;
+            background: linear-gradient(135deg, var(--content-background) 0%, var(--card-background) 100%);
+            border: 1px solid var(--border-color);
             border-left: 4px solid var(--primary-color);
-            border-radius: 4px;
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-sm);
         }
 
         .exclusions h4, .conditions h4 { 
@@ -715,19 +801,20 @@
         }
         
         .condition-input:hover, .exclusion-input:hover {
-            background: rgba(75, 85, 99, 0.03);
+            background: rgba(59, 130, 246, 0.03);
             cursor: pointer;
         }
-        
+
         .condition-input:focus, .exclusion-input:focus {
             background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 2px;
+            border: 1px solid var(--primary-color);
+            border-radius: var(--border-radius-sm);
             outline: none;
-            box-shadow: 0 0 0 2px rgba(75, 85, 99, 0.05);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(59, 130, 246, 0.1);
             padding: 2px 4px;
             margin: -2px -4px;
             width: calc(100% + 8px);
+            transform: translateY(-1px);
         }
         
         .condition-label {
@@ -740,22 +827,23 @@
         .attachments-section {
             margin-top: 30px;
             padding: 20px;
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-            border: 1px solid #0284c7;
-            border-radius: 8px;
+            background: linear-gradient(135deg, var(--primary-color-lighter) 0%, #FFFFFF 100%);
+            border: 1px solid var(--border-color-blue);
+            border-radius: var(--border-radius-lg);
             margin-bottom: 20px;
+            box-shadow: var(--shadow-sm);
         }
-        
+
         .attachments-section h4 {
             font-size: 14px;
-            color: #0c4a6e;
+            color: var(--primary-color-darker);
             margin-bottom: 15px;
             font-weight: 600;
         }
-        
+
         .attachment-dropzone {
-            border: 2px dashed #0284c7;
-            border-radius: 6px;
+            border: 2px dashed var(--primary-color-light);
+            border-radius: var(--border-radius-md);
             padding: 30px;
             text-align: center;
             background: white;
@@ -763,16 +851,18 @@
             transition: all 0.3s ease;
             margin-bottom: 15px;
         }
-        
+
         .attachment-dropzone:hover {
-            background: #f0f9ff;
-            border-color: #0369a1;
+            background: var(--secondary-background-color);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
-        
+
         .attachment-dropzone.dragover {
-            background: #dbeafe;
-            border-color: #0369a1;
+            background: var(--primary-color-lighter);
+            border-color: var(--primary-color-darker);
             transform: scale(1.02);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
         }
         
         .dropzone-text {
@@ -783,25 +873,27 @@
         
         .dropzone-icon {
             font-size: 48px;
-            color: #0284c7;
+            color: var(--primary-color);
             margin-bottom: 10px;
         }
-        
+
         .file-input-label {
             display: inline-block;
             padding: 8px 20px;
-            background: #0284c7;
+            background: var(--primary-color);
             color: white;
-            border-radius: 4px;
+            border-radius: var(--border-radius-md);
             font-size: 11px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
         }
-        
+
         .file-input-label:hover {
-            background: #0369a1;
-            transform: translateY(-1px);
+            background: var(--primary-color-darker);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
         }
         
         #fileInput {
@@ -825,9 +917,10 @@
         }
         
         .attachment-item:hover {
-            background: #f9fafb;
-            border-color: #0284c7;
+            background: var(--secondary-background-color);
+            border-color: var(--primary-color);
             transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15);
         }
         
         .attachment-icon {
@@ -871,18 +964,19 @@
         }
         
         .attachment-btn:hover {
-            background: #f9fafb;
-            border-color: #0284c7;
+            background: var(--secondary-background-color);
+            border-color: var(--primary-color);
         }
-        
+
         .attachment-btn.view {
-            color: #0284c7;
-            border-color: #0284c7;
+            color: var(--primary-color);
+            border-color: var(--primary-color);
         }
-        
+
         .attachment-btn.view:hover {
-            background: #0284c7;
+            background: var(--primary-color);
             color: white;
+            box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
         }
         
         .attachment-btn.remove {
@@ -964,15 +1058,15 @@
         .signature-section {
             margin-top: 30px;
             padding: 25px;
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-            border: 2px solid #0284c7;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(135deg, var(--primary-color-lighter) 0%, #FFFFFF 100%);
+            border: 2px solid var(--primary-color-light);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
         }
 
         .signature-section h4 {
             font-size: 14px;
-            color: #0c4a6e;
+            color: var(--primary-color-darker);
             margin-bottom: 20px;
             text-align: center;
             font-weight: 600;
@@ -1000,25 +1094,27 @@
         }
 
         .btn-accept {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            background: linear-gradient(145deg, rgba(150, 255, 180, 0.15) 0%, var(--project-success) 50%, #16a34a 100%);
             color: white;
+            box-shadow: 0 4px 8px rgba(34, 197, 94, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
         }
 
         .btn-accept:hover {
-            background: linear-gradient(135deg, #059669 0%, #047857 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(16, 185, 129, 0.3);
+            background: linear-gradient(145deg, rgba(170, 255, 200, 0.2) 0%, var(--project-success-light) 50%, var(--success-hover) 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(34, 197, 94, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.3), 0 0 20px rgba(34, 197, 94, 0.3);
         }
 
         .btn-refuse {
-            background: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
+            background: linear-gradient(145deg, rgba(255, 120, 120, 0.15) 0%, var(--project-danger) 50%, #dc2626 100%);
             color: white;
+            box-shadow: 0 4px 8px rgba(239, 68, 68, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
         }
 
         .btn-refuse:hover {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(239, 68, 68, 0.3);
+            background: linear-gradient(145deg, rgba(255, 140, 140, 0.2) 0%, var(--project-danger-light) 50%, var(--danger-hover) 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(239, 68, 68, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.3), 0 0 20px rgba(239, 68, 68, 0.3);
         }
 
         .signature-form {
@@ -1051,7 +1147,7 @@
             font-size: 10px;
             font-weight: 600;
             margin-bottom: 5px;
-            color: #374151;
+            color: var(--button-color-light);
         }
 
         .form-group input,
@@ -1067,8 +1163,9 @@
         .form-group input:focus,
         .form-group textarea:focus {
             outline: none;
-            border-color: #0284c7;
-            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(59, 130, 246, 0.1);
+            transform: translateY(-1px);
         }
 
         .form-group textarea {
@@ -1101,25 +1198,27 @@
         .confirm-action-btn {
             margin-top: 15px;
             padding: 10px 30px;
-            background: #0284c7;
+            background: linear-gradient(145deg, rgba(150, 180, 255, 0.2) 0%, var(--primary-color) 50%, var(--primary-color-darker) 100%);
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: var(--border-radius-md);
             cursor: pointer;
             font-size: 11px;
             font-weight: 600;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
         }
 
         .confirm-action-btn:hover {
-            background: #0369a1;
-            transform: translateY(-1px);
+            background: linear-gradient(145deg, rgba(170, 200, 255, 0.25) 0%, var(--primary-color-light) 50%, var(--primary-color-darker) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(59, 130, 246, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.3), 0 0 15px rgba(59, 130, 246, 0.2);
         }
 
         .signature-timestamp {
             margin-top: 10px;
             font-size: 9px;
-            color: #6b7280;
+            color: var(--text-color-light);
             text-align: center;
             font-style: italic;
         }
@@ -1150,17 +1249,18 @@
         }
 
         .footer input:hover:not(:focus) {
-            background: rgba(102, 102, 102, 0.03) !important;
+            background: rgba(59, 130, 246, 0.03) !important;
             cursor: pointer;
         }
 
         .footer input:focus {
-            background: rgba(255, 255, 255, 0.8) !important;
-            border: 1px solid #e5e7eb !important;
-            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.95) !important;
+            border: 1px solid var(--primary-color) !important;
+            border-radius: var(--border-radius-sm);
             padding: 1px 3px;
             outline: none;
-            box-shadow: 0 0 0 2px rgba(102, 102, 102, 0.05);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(59, 130, 246, 0.1);
+            transform: translateY(-1px);
         }
         
         .page-number { 
@@ -1307,9 +1407,9 @@
             align-items: center;
             padding: 12px;
             margin-bottom: 8px;
-            background: #f9fafb;
-            border: 1px solid #e5e7eb;
-            border-radius: 4px;
+            background: var(--secondary-background-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-md);
             transition: all 0.3s;
         }
 
@@ -2861,11 +2961,11 @@
                     <td class="value" id="totalAvantTaxes">0,00&nbsp;$</td>
                 </tr>
                 <tr>
-                    <td class="label">TPS (5%) - <span id="tpsDisplay">850370164RT0001</span>:</td>
+                    <td class="label">TPS (5%) - <span id="tpsDisplay">123456789RT0001</span>:</td>
                     <td class="value" id="totalTPS">0,00&nbsp;$</td>
                 </tr>
                 <tr>
-                    <td class="label">TVQ (9.975%) - <span id="tvqDisplay">1212199610TQ0002</span>:</td>
+                    <td class="label">TVQ (9.975%) - <span id="tvqDisplay">1234567890TQ0001</span>:</td>
                     <td class="value" id="totalTVQ">0,00&nbsp;$</td>
                 </tr>
                 <tr class="total-row">
@@ -2883,7 +2983,7 @@
                 <li><span class="condition-label">Délai d'exécution:</span> <textarea class="condition-input" id="condition-delai" onchange="APP.autoSave()">[X] semaines après l'obtention des permis et signature du contrat.</textarea></li>
                 <li><span class="condition-label">Modalités de paiement:</span> <textarea class="condition-input" id="condition-paiement" onchange="APP.autoSave()">10% à la signature, 25% début des travaux, paiements progressifs selon avancement, 5% retenue finale.</textarea></li>
                 <li><span class="condition-label">Garanties:</span> <textarea class="condition-input" id="condition-garanties" onchange="APP.autoSave()">1 an main-d'œuvre, 5 ans toiture, 10 ans structure, selon normes GCR.</textarea></li>
-                <li><span class="condition-label">Augmentation des matériaux:</span> <textarea class="condition-input" id="condition-augmentation" onchange="APP.autoSave()">Prix sujets à ajustement si augmentation >5% entre soumission et commande.</textarea></li>
+                <li><span class="condition-label">Augmentation des matériaux:</span> <textarea class="condition-input" id="condition-augmentation" onchange="APP.autoSave()">Prix sujets à ajustement si augmentation &gt;5% entre soumission et commande.</textarea></li>
                 <li><span class="condition-label">Conditions de sol:</span> <textarea class="condition-input" id="condition-sol" onchange="APP.autoSave()">Prix basés sur sol normal. Roc ou conditions spéciales en supplément.</textarea></li>
                 <li><span class="condition-label">Modifications:</span> <textarea class="condition-input" id="condition-modifications" onchange="APP.autoSave()">Tout changement après signature fera l'objet d'un ordre de changement écrit avec ajustement de prix.</textarea></li>
             </ul>
@@ -2915,15 +3015,13 @@
                 <label for="fileInput" class="file-input-label" onclick="event.stopPropagation()">
                     Choisir des fichiers
                 </label>
-                <input type="file" id="fileInput" multiple accept=".pdf,.docx,.doc,.xlsx,.xls,.csv,.txt,.rtf,.md,.jpg,.jpeg,.png,.gif,.bmp,.webp,.py,.js,.html,.htm,.css,.json,.xml,.yaml,.yml,.mp3,.wav,.m4a,.ogg,.flac,.aac" onchange="APP.handleFileSelect(event)">
+                <input type="file" id="fileInput" multiple="" accept=".pdf,.docx,.doc,.xlsx,.xls,.csv,.txt,.rtf,.md,.jpg,.jpeg,.png,.gif,.bmp,.webp,.py,.js,.html,.htm,.css,.json,.xml,.yaml,.yml,.mp3,.wav,.m4a,.ogg,.flac,.aac" onchange="APP.handleFileSelect(event)">
                 <div class="supported-formats">
                     Formats supportés: PDF, Word, Excel, Images, Audio, Code et plus...
                 </div>
             </div>
             
-            <div class="attachments-list" id="attachmentsList">
-                <!-- Les fichiers joints apparaîtront ici -->
-            </div>
+            <div class="attachments-list" id="attachmentsList"><div style="text-align: center; color: #999; padding: 20px; font-size: 11px;">Aucun fichier joint</div></div>
         </div>
 
         <!-- Modal de prévisualisation -->
@@ -5184,6 +5282,7 @@ ${document.documentElement.outerHTML}`;
         // Exposition globale pour les événements onclick
         window.APP = APP;
     </script>
+
 
 
 
